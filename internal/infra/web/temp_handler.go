@@ -27,7 +27,7 @@ func (h *WebTempHandler) Get(w http.ResponseWriter, r *http.Request) {
 		Cep:chi.URLParam(r, "cep") ,
 	};
 
-	getTempUseCase := usecase.NewCreateGetTempUseCase(h.LocationRepository, h.TempRepository);
+	getTempUseCase := usecase.NewGetTempUseCase(h.LocationRepository, h.TempRepository);
 
 	output, err := getTempUseCase.Execute(inputDTO);
 

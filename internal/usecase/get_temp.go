@@ -14,19 +14,19 @@ type GetTempOutputDTO struct {
 	Kelvin        	float64 	`json:"temp_K"`
 }
 
-type CreateGetTempCase struct {
+type GetTempUseCase struct {
 	LocationRepository 	entity.LocationRepositoryInterface
 	TempRepository 		entity.TempRepositoryInterface
 }
 
-func NewCreateGetTempUseCase(locationRepository entity.LocationRepositoryInterface, tempRepository entity.TempRepositoryInterface) *CreateGetTempCase {
-	return &CreateGetTempCase{
+func NewGetTempUseCase(locationRepository entity.LocationRepositoryInterface, tempRepository entity.TempRepositoryInterface) *GetTempUseCase {
+	return &GetTempUseCase{
 		LocationRepository: locationRepository,
 		TempRepository: tempRepository,
 	}
 }
 
-func (c *CreateGetTempCase) Execute(input GetTempInputDTO) (GetTempOutputDTO, error) {
+func (g *GetTempUseCase) Execute(input GetTempInputDTO) (GetTempOutputDTO, error) {
 
 	cep, err := entity.NewCep(input.Cep);
 
@@ -34,13 +34,13 @@ func (c *CreateGetTempCase) Execute(input GetTempInputDTO) (GetTempOutputDTO, er
 		return GetTempOutputDTO{}, err;
 	}
 
-	location, err := c.LocationRepository.Get(cep);
+	location, err := g.LocationRepository.Get(cep);
 
 	if (err != nil) {
 		return GetTempOutputDTO{}, err;
 	}
 
-	temp, err := c.TempRepository.Get(&location);
+	temp, err := g.TempRepository.Get(&location);
 
 	if (err != nil) {
 		return GetTempOutputDTO{}, err;
